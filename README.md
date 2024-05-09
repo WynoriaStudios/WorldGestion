@@ -12,4 +12,5 @@ This resource has been developed by ourselves since the evening of May 9, 2024 a
 # Links
 
 Skript (Github Official): https://github.com/SkriptLang/Skript
+
 SkBee (Github Official): https://github.com/ShaneBeee/SkBee
