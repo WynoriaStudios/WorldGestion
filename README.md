@@ -10,7 +10,7 @@ This resource is a script that allows for more advanced management of worlds. It
 
 WorldGestion works on Spigot as well as on Paper but we advise you to use Paper for better stability and optimization of your Minecraft server and its plugins.
 
-This resource has been developed by ourselves since the evening of May 9, 2024 and will soon be published in a few weeks or even months.
+This resource has been developed by ourselves since the evening of May 9, 2024 and its first publication was made on Friday May 10, 2024 in the late afternoon.
 
 # Links
 
