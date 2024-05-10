@@ -1,0 +1,316 @@
+# This resource was developed solely by WynoriaStudios.
+# You can reuse the code or the entire file for your own projects, but identify us as the founder of this resource.
+# Github Official for this ressource: https://github.com/WynoriaStudios/WorldGestion
+
+# ------------------------------------------------------------------------------------------------------------------------------- #
+# ------------------------------------------------------------------------------------------------------------------------------- #
+# ------------------------------------------------------------------------------------------------------------------------------- #
+
+options:
+	# This option allows you to change the language of this resource.
+	# Liste of all languages: English
+	Language_name: "English"
+
+	# This option lists worlds that cannot be deleted by default.
+	WorldList_NoDelete: "world" or "world_nether" or "world_the_end"
+
+# ------------------------------------------------------------------------------------------------------------------------------- #
+# ------------------------------------------------------------------------------------------------------------------------------- #
+# ------------------------------------------------------------------------------------------------------------------------------- #
+
+function WorldGestionCMDSystem(sender: sender, type-function: text):
+
+	if {_type-function} = "NO_PERMISSION":
+
+		if {@Language_name} = "English":
+			send "&8&l| &cYou are not authorized to access this command." to {_sender}
+
+
+	else if {_type-function} = "HELP":
+
+		send "" to {_sender}
+
+		if {@Language_name} = "English":
+			send "&b&lWorldGestion &8x &f&nHELP" to {_sender}
+			send "" to {_sender}
+			send "&8&l| &f/wg &binfo &8&l» &7Get the list of available information." to {_sender}
+			send "&8&l| &f/wg &breload&7/&brestart &8&l» &7Get a script restart." to {_sender}
+			send "&8&l| &f/wg &bhelp &8&l» &7Get the list of available orders." to {_sender}
+
+
+	else if {_type-function} = "INFO":
+
+		send "" to {_sender}
+
+		if {@Language_name} = "English":
+			send "&b&lWorldGestion &8x &f&nINFORMATION" to {_sender}
+			send "" to {_sender}
+			send "&8&l| &fName of script: &b&lWorldGestion" to {_sender}
+			send "&8&l| &fDeveloper of script: &b&lWynoriaStudios &7(&dWynoria's Studios&7)" to {_sender}
+			send "&8&l| &fVersion of script: &a1.0.0" to {_sender}
+			send "&8&l| &fGithub of script: &3https://github.com/WynoriaStudios/WorldGestion" to {_sender}
+
+
+	else if {_type-function} = "RELOAD_SCRIPT":
+
+		make console execute command "/sk reload WorldGestion.sk"
+		send "" to {_sender}
+		
+		if {@Language_name} = "English":
+			send "&8&l| &6You have successfully restarted the script, check the server &3CONSOLE &6to see if there are any problems detected on your restart." to {_sender}
+
+
+function WorldCMDSystem(sender: sender, type-function: text, type-world: text):
+
+	if {_type-function} = "NO_CONSOLE_ACCESS":
+
+		if {@Language_name} = "English":
+			send "&8&l| &cThis command is only available in-game." to {_sender}
+
+
+	else if {_type-function} = "NO_PERMISSION":
+
+		if {@Language_name} = "English":
+			send "&8&l| &cYou are not authorized to access this command." to {_sender}
+
+
+	else if {_type-function} = "HELP":
+
+		send "" to {_sender}
+
+		if {@Language_name} = "English":
+			send "&b&lWorldGestion &8x &f&nHELP" to {_sender}
+			send "" to {_sender}
+			send "&8&l| &f/world &bcreate &7[&dname of new world&7] &8&l» &7Create a world type." to {_sender}
+			send "&8&l| &f/world &bdelete &7[&dname of world&7] &8&l» &7Delete a world type." to {_sender}
+			send "&8&l| &f/world &btp&7/&bteleport &7[&dname of world&7] &8&l» &7Teleport in a world type." to {_sender}
+			send "&8&l| &f/world &blist &8&l» &7Get the list of all worlds." to {_sender}
+
+
+	else if {_type-function} = "WORLD_LIST":
+
+		if {@Language_name} = "English":
+			send "&8&l| &6Liste of all worlds: &f%all worlds%" to {_sender}
+
+
+	else if {_type-function} = "WORLD_NO_EXIST":
+
+		if {@Language_name} = "English":
+			send "&8&l| &cThe world &3%{_type-world}% &cdoes not exist." to {_sender}
+
+
+	else if {_type-function} = "WORLD_EXIST":
+
+		if {@Language_name} = "English":
+			send "&8&l| &cThe world &3%{_type-world}% &calready exist." to {_sender}
+
+
+	else if {_type-function} = "WORLD_NO_DELETE":
+
+		if {@Language_name} = "English":
+			send "&8&l| &cThe world &3%{_type-world}% &ccan't be removed, because it's a default world." to {_sender}
+
+
+	else if {_type-function} = "WORLD_DELETE":
+
+		delete world file for {_type-world}
+
+		if {@Language_name} = "English":
+			send "&8&l| &6The world &3%{_type-world}% &6has been deleted successfully." to {_sender}
+
+
+	else if {_type-function} = "WORLD_CREATE":
+
+		set {db-worldgestion::%uuid of {_sender}%::create_new_world::id_named} to "%{_type-world}%"
+		wait 1 tick
+		GUINewWorldCreateSystem({_sender}, "MAIN_MENU")
+
+
+	else if {_type-function} = "WORLD_TELEPORT":
+
+		teleport {_sender} to the spawn of world {_type-world}
+
+		if {@Language_name} = "English":
+			send "&8&l| &6You have been teleported in the world &3%{_type-world}%&6." to {_sender}
+
+
+function GUINewWorldCreateSystem(sender: sender, type-function: text):
+
+	if {_type-function} = "MAIN_MENU":
+
+		if {@Language_name} = "English":
+
+			set (metadata tag "GUIMenu_CreateNewWorld" of {_sender}) to chest inventory with 6 rows named "&8&lCreate new world"
+			
+			set slot 10 of (metadata tag "GUIMenu_CreateNewWorld" of {_sender}) to grass block named "&aOverWorld" with lore "%nl%&7Creating a normal world."
+			set slot 11 of (metadata tag "GUIMenu_CreateNewWorld" of {_sender}) to netherrack named "&aNether" with lore "%nl%&7Creating a nether world."
+			set slot 12 of (metadata tag "GUIMenu_CreateNewWorld" of {_sender}) to end stone named "&aThe End" with lore "%nl%&7Creating a end world."
+			set slot 13 of (metadata tag "GUIMenu_CreateNewWorld" of {_sender}) to rooted dirt named "&aFlat" with lore "%nl%&7Creating a flat normal world."
+			set slot 14 of (metadata tag "GUIMenu_CreateNewWorld" of {_sender}) to glass named "&aThe Void" with lore "%nl%&7Creating a void normal world."
+
+			set slot 49 of (metadata tag "GUIMenu_CreateNewWorld" of {_sender}) to head of {_sender} named "&cClose the menu" with nbt compound from "{SkullOwner:{Id:[I;1592265869,750865405,-1589933904,573464521],Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYzdmMDBlZjIyMGJhZGI5MjU1NjFlMjJkZWJhYTcyNjMyMDY5MjEwNDdjZDgzZWYzYzg0ZGY0OTBiYmNkZDE4YiJ9fX0=""}]}}}"
+	
+		set slot 36, 37, 38, 39, 40, 41, 42, 43 and 44 of (metadata tag "GUIMenu_CreateNewWorld" of {_sender}) to light blue stained glass pane	
+		open (metadata tag "GUIMenu_CreateNewWorld" of {_sender}) to {_sender}
+
+
+command /worldgestion [<text>]:
+	aliases: /wg, /worldgestion:worldgestion, /worldgestion:wg
+	trigger:
+		if sender is a player:
+			if player doesn't have permission "worldgestion.command.worldgestion" or "worldgestion.command.*":
+				WorldGestionCMDSystem(player, "NO_PERMISSION")
+				stop
+
+		if arg-1 isn't set:
+			WorldGestionCMDSystem(sender, "HELP")
+		else:
+			if arg-1 != "info" or "reload" or "restart":
+				WorldGestionCMDSystem(sender, "HELP")
+			
+			else if arg-1 = "info":
+				WorldGestionCMDSystem(sender, "INFO")
+			
+			else if arg-1 = "reload" or "restart":
+				WorldGestionCMDSystem(sender, "RELOAD_SCRIPT")
+
+
+command /world [<text>] [<text>]:
+	aliases: /worldgestion:world
+	trigger:
+		if sender is a player:
+			if player doesn't have permission "worldgestion.command.world" or "worldgestion.command.*":
+				WorldGestionCMDSystem(player, "NO_PERMISSION")
+				stop
+			else:
+				if arg-1 isn't set:
+					WorldCMDSystem(player, "HELP", "NONE")
+				else:
+					if arg-1 != "create" or "delete" or "tp" or "teleport" or "list":
+						WorldCMDSystem(player, "HELP", "NONE")
+
+					else if arg-1 = "create":
+						if arg-2 isn't set:
+							WorldCMDSystem(player, "HELP", "NONE")
+						else:
+							if (arg-2 parsed as world) is set:
+								WorldCMDSystem(player, "WORLD_EXIST", "%arg-2 parsed as world%")
+							else:
+								WorldCMDSystem(player, "WORLD_CREATE", arg-2)
+				
+					else if arg-1 = "delete":
+						if arg-2 isn't set:
+							WorldCMDSystem(player, "HELP", "NONE")
+						else:
+							if (arg-2 parsed as world) isn't set:
+								WorldCMDSystem(player, "WORLD_NO_EXIST", arg-2)
+							else:
+								if arg-2 = {@WorldList_NoDelete}:
+									WorldCMDSystem(player, "WORLD_NO_DELETE", arg-2)
+								else:
+									WorldCMDSystem(player, "WORLD_DELETE", "%arg-2 parsed as world%")
+
+					else if arg-1 = "tp" or "teleport":
+						if arg-2 isn't set:
+							WorldCMDSystem(player, "HELP", "NONE")
+						else:
+							if (arg-2 parsed as world) isn't set:
+								WorldCMDSystem(player, "WORLD_NO_EXIST", arg-2)
+							else:
+								WorldCMDSystem(player, "WORLD_TELEPORT", "%arg-2 parsed as world%")
+					
+					else if arg-1 = "list":
+						WorldCMDSystem(player, "WORLD_LIST", "NONE")
+
+		else if sender is console:
+			WorldCMDSystem(console, "NO_CONSOLE_ACCESS", "NONE")
+
+
+on inventory click:
+	if event-inventory = (metadata tag "GUIMenu_CreateNewWorld" of player):
+		cancel event
+
+		if name of event-item = "&aOverWorld":
+
+			set {_id_world} to "%{db-worldgestion::%uuid of player%::create_new_world::id_named}%"
+			delete {db-worldgestion::%uuid of player%::create_new_world::id_named}
+
+			close inventory of player
+			set {_nw} to new world creator named "%{_id_world}%"
+			set environment option of {_nw} to normal
+			load world from creator {_nw}
+
+			if {@Language_name} = "English":
+				send "&8&l| &6You have created the world &3%{_id_world}% &6with successfully." to player
+
+		else if name of event-item = "&aNether":
+
+			set {_id_world} to "%{db-worldgestion::%uuid of player%::create_new_world::id_named}%"
+			delete {db-worldgestion::%uuid of player%::create_new_world::id_named}
+
+			close inventory of player
+			set {_nw} to new world creator named "%{_id_world}%"
+			set environment option of {_nw} to nether
+			load world from creator {_nw}
+
+			if {@Language_name} = "English":
+				send "&8&l| &6You have created the world &3%{_id_world}% &6with successfully." to player
+
+		else if name of event-item = "&aThe End":
+
+			set {_id_world} to "%{db-worldgestion::%uuid of player%::create_new_world::id_named}%"
+			delete {db-worldgestion::%uuid of player%::create_new_world::id_named}
+
+			close inventory of player
+			set {_nw} to new world creator named "%{_id_world}%"
+			set environment option of {_nw} to the end
+			load world from creator {_nw}
+
+			if {@Language_name} = "English":
+				send "&8&l| &6You have created the world &3%{_id_world}% &6with successfully." to player
+
+
+		else if name of event-item = "&aFlat":
+
+			set {_id_world} to "%{db-worldgestion::%uuid of player%::create_new_world::id_named}%"
+			delete {db-worldgestion::%uuid of player%::create_new_world::id_named}
+
+			close inventory of player
+			set {_nw} to new world creator named "%{_id_world}%"
+			set environment option of {_nw} to normal
+			set world type of {_nw} to flat
+			load world from creator {_nw}
+
+			if {@Language_name} = "English":
+				send "&8&l| &6You have created the world &3%{_id_world}% &6with successfully." to player
+
+
+		else if name of event-item = "&aThe Void":
+
+			set {_id_world} to "%{db-worldgestion::%uuid of player%::create_new_world::id_named}%"
+			delete {db-worldgestion::%uuid of player%::create_new_world::id_named}
+
+			close inventory of player
+			set {_nw} to new world creator named "%{_id_world}%"
+			set world type of {_nw} to flat
+			set generator settings of {_nw} to "{""biome"": ""minecraft:plains"",""layers"": []}}"
+			set should generate structures of {_nw} to false
+			load world from {_nw}
+
+			if {@Language_name} = "English":
+				send "&8&l| &6You have created the world &3%{_id_world}% &6with successfully." to player
+
+
+		else if name of event-item = "&cClose the menu":
+			close inventory of player
+
+
+on inventory close:
+	if {db-worldgestion::%uuid of player%::create_new_world::id_named} is set:
+		
+		if event-inventory = (metadata tag "GUIMenu_CreateNewWorld" of player):
+
+			if {@Language_name} = "English":
+				send "&8&l| &cThe creation of the world &3%{db-worldgestion::%uuid of player%::create_new_world::id_named}% &cwas successfully cancelled." to player
+			
+			delete {db-worldgestion::%uuid of player%::create_new_world::id_named}
