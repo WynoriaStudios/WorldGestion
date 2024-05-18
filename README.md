@@ -17,3 +17,5 @@ This resource has been developed by ourselves since the evening of May 9, 2024 a
 Skript (Github Official): https://github.com/SkriptLang/Skript
 
 SkBee (Github Official): https://github.com/ShaneBeee/SkBee
+
+Spigot (Ressource Official): https://www.spigotmc.org/resources/worldgestion.116729/
