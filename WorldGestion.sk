@@ -35,7 +35,7 @@ function WorldGestionCMDSystem(sender: sender, type-function: text):
 			send "" to {_sender}
 			send "&8&l| &f/wg &binfo &8&l» &7Get the list of available information." to {_sender}
 			send "&8&l| &f/wg &breload&7/&brestart &8&l» &7Get a script restart." to {_sender}
-			send "&8&l| &f/wg &bhelp &8&l» &7Get the list of available orders." to {_sender}
+			send "&8&l| &f/wg &bhelp &8&l» &7Get the list of available commands." to {_sender}
 
 
 	else if {_type-function} = "INFO":
@@ -85,6 +85,7 @@ function WorldCMDSystem(sender: sender, type-function: text, type-world: text):
 			send "&8&l| &f/world &bdelete &7[&dname of world&7] &8&l» &7Delete a world type." to {_sender}
 			send "&8&l| &f/world &btp&7/&bteleport &7[&dname of world&7] &8&l» &7Teleport in a world type." to {_sender}
 			send "&8&l| &f/world &blist &8&l» &7Get the list of all worlds." to {_sender}
+			send "&8&l| &f/world &bhelp &8&l» &7Get the list of available commands." to {_sender}
 
 
 	else if {_type-function} = "WORLD_LIST":
