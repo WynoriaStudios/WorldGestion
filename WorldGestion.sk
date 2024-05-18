@@ -90,7 +90,7 @@ function WorldCMDSystem(sender: sender, type-function: text, type-world: text):
 	else if {_type-function} = "WORLD_LIST":
 
 		if {@Language_name} = "English":
-			send "&8&l| &6Liste of all worlds: &f%all worlds%" to {_sender}
+			send "&8&l| &6List of all worlds: &f%all worlds%" to {_sender}
 
 
 	else if {_type-function} = "WORLD_NO_EXIST":
