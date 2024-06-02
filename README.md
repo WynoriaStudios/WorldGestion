@@ -19,3 +19,5 @@ Skript (Github Official): https://github.com/SkriptLang/Skript
 SkBee (Github Official): https://github.com/ShaneBeee/SkBee
 
 Spigot (Ressource Official): https://www.spigotmc.org/resources/worldgestion.116729/
+
+Wiki Official (Gitbook Official): https://worldgestion.wynoria.com/
