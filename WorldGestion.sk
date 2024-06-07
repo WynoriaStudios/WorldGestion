@@ -316,3 +316,18 @@ on inventory close:
 				send "&8&l| &cThe creation of the world &3%{db-worldgestion::%uuid of player%::create_new_world::id_named}% &cwas successfully cancelled." to player
 			
 			delete {db-worldgestion::%uuid of player%::create_new_world::id_named}
+
+
+on tab complete of "worldgestion" or "wg" or "worldgestion:worldgestion" or "worldgestion:wg":
+	if sender is a player:
+		if player has permission "worldgestion.command.worldgestion" or "worldgestion.command.*":
+			set tab completions for position 1 to "info", "reload" and "restart"
+	else if sender is console:
+		set tab completions for position 1 to "info", "reload" and "restart"
+
+on tab complete of "world" or "worldgestion:world":
+	if sender is a player:
+		if player has permission "worldgestion.command.world" or "worldgestion.command.*":
+			set tab completions for position 1 to "create", "delete", "tp", "teleport" and "list"
+			if tab arg-1 = "tp" or "teleport" or "delete":
+				set tab completions for position 2 to all worlds
