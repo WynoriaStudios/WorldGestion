@@ -47,7 +47,7 @@ function WorldGestionCMDSystem(sender: sender, type-function: text):
 			send "" to {_sender}
 			send "&8&l| &fName of script: &b&lWorldGestion" to {_sender}
 			send "&8&l| &fDeveloper of script: &b&lWynoriaStudios &7(&dWynoria's Studios&7)" to {_sender}
-			send "&8&l| &fVersion of script: &a1.0.1" to {_sender}
+			send "&8&l| &fVersion of script: &a1.0.2" to {_sender}
 			send "&8&l| &fGithub official of script: &3https://github.com/WynoriaStudios/WorldGestion" to {_sender}
 			send "&8&l| &fSpigot official of script: &3https://www.spigotmc.org/resources/worldgestion.116729/" to {_sender}
 			send "&8&l| &fWiki official of script: &3https://mc-worldgestion.wynoria.com/" to {_sender}
