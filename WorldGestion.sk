@@ -85,6 +85,7 @@ function WorldCMDSystem(sender: sender, type-function: text, type-world: text):
 			send "" to {_sender}
 			send "&8&l| &f/world &bcreate &7[&dname of new world&7] &8&l» &7Create a world type." to {_sender}
 			send "&8&l| &f/world &bdelete &7[&dname of world&7] &8&l» &7Delete a world type." to {_sender}
+			send "&8&l| &f/world &bsetspawn &8&l» &7Set spawn in world type." to {_sender}
 			send "&8&l| &f/world &btp&7/&bteleport &7[&dname of world&7] &8&l» &7Teleport in a world type." to {_sender}
 			send "&8&l| &f/world &blist &8&l» &7Get the list of all worlds." to {_sender}
 			send "&8&l| &f/world &bhelp &8&l» &7Get the list of available commands." to {_sender}
@@ -135,6 +136,14 @@ function WorldCMDSystem(sender: sender, type-function: text, type-world: text):
 
 		if {@Language_name} = "English":
 			send "&8&l| &6You have been teleported in the world &3%{_type-world}%&6." to {_sender}
+
+
+	else if {_type-function} = "SET_SPAWN_WORLD":
+
+		set the spawn point of "%world of {_sender}%" to location of {_sender}
+
+		if {@Language_name} = "English":
+			send "&8&l| &6You have set the spawn point in the world &3%world of {_sender}%&6." to {_sender}
 
 
 function GUINewWorldCreateSystem(sender: sender, type-function: text):
@@ -189,7 +198,7 @@ command /world [<text>] [<text>]:
 				if arg-1 isn't set:
 					WorldCMDSystem(player, "HELP", "NONE")
 				else:
-					if arg-1 != "create" or "delete" or "tp" or "teleport" or "list":
+					if arg-1 != "create" or "delete" or "setspawn" or "tp" or "teleport" or "list":
 						WorldCMDSystem(player, "HELP", "NONE")
 
 					else if arg-1 = "create":
@@ -212,6 +221,9 @@ command /world [<text>] [<text>]:
 									WorldCMDSystem(player, "WORLD_NO_DELETE", arg-2)
 								else:
 									WorldCMDSystem(player, "WORLD_DELETE", "%arg-2 parsed as world%")
+
+					else if arg-1 = "setspawn":
+						WorldCMDSystem(player, "SET_SPAWN_WORLD", "NONE")
 
 					else if arg-1 = "tp" or "teleport":
 						if arg-2 isn't set:
@@ -329,6 +341,6 @@ on tab complete of "worldgestion" or "wg" or "worldgestion:worldgestion" or "wor
 on tab complete of "world" or "worldgestion:world":
 	if sender is a player:
 		if player has permission "worldgestion.command.world" or "worldgestion.command.*":
-			set tab completions for position 1 to "create", "delete", "tp", "teleport" and "list"
+			set tab completions for position 1 to "create", "delete", "setspawn", "tp", "teleport" and "list"
 			if tab arg-1 = "tp" or "teleport" or "delete":
 				set tab completions for position 2 to all worlds
