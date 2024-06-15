@@ -204,38 +204,34 @@ command /world [<text>] [<text>]:
 					if arg-1 != "create" or "delete" or "setspawn" or "tp" or "teleport" or "list":
 						WorldCMDSystem(player, "HELP", "NONE")
 
-					else if arg-1 = "create":
+					else if arg-1 = "create" or "delete" or "tp" or "teleport":
 						if arg-2 isn't set:
 							WorldCMDSystem(player, "HELP", "NONE")
 						else:
-							if (arg-2 parsed as world) is set:
-								WorldCMDSystem(player, "WORLD_EXIST", "%arg-2 parsed as world%")
-							else:
-								WorldCMDSystem(player, "WORLD_CREATE", arg-2)
-				
-					else if arg-1 = "delete":
-						if arg-2 isn't set:
-							WorldCMDSystem(player, "HELP", "NONE")
-						else:
-							if (arg-2 parsed as world) isn't set:
-								WorldCMDSystem(player, "WORLD_NO_EXIST", arg-2)
-							else:
-								if arg-2 = {@WorldList_NoDelete}:
-									WorldCMDSystem(player, "WORLD_NO_DELETE", arg-2)
+
+							if arg-1 = "create":
+								if (arg-2 parsed as world) is set:
+									WorldCMDSystem(player, "WORLD_EXIST", "%arg-2 parsed as world%")
 								else:
-									WorldCMDSystem(player, "WORLD_DELETE", "%arg-2 parsed as world%")
+									WorldCMDSystem(player, "WORLD_CREATE", arg-2)
+						
+							else if arg-1 = "delete":
+								if (arg-2 parsed as world) isn't set:
+									WorldCMDSystem(player, "WORLD_NO_EXIST", arg-2)
+								else:
+									if arg-2 = {@WorldList_NoDelete}:
+										WorldCMDSystem(player, "WORLD_NO_DELETE", arg-2)
+									else:
+										WorldCMDSystem(player, "WORLD_DELETE", "%arg-2 parsed as world%")
+
+							else if arg-1 = "tp" or "teleport":
+								if (arg-2 parsed as world) isn't set:
+									WorldCMDSystem(player, "WORLD_NO_EXIST", arg-2)
+								else:
+									WorldCMDSystem(player, "WORLD_TELEPORT", "%arg-2 parsed as world%")
 
 					else if arg-1 = "setspawn":
 						WorldCMDSystem(player, "SET_SPAWN_WORLD", "NONE")
-
-					else if arg-1 = "tp" or "teleport":
-						if arg-2 isn't set:
-							WorldCMDSystem(player, "HELP", "NONE")
-						else:
-							if (arg-2 parsed as world) isn't set:
-								WorldCMDSystem(player, "WORLD_NO_EXIST", arg-2)
-							else:
-								WorldCMDSystem(player, "WORLD_TELEPORT", "%arg-2 parsed as world%")
 					
 					else if arg-1 = "list":
 						WorldCMDSystem(player, "WORLD_LIST", "NONE")
@@ -248,115 +244,45 @@ on inventory click:
 	if event-inventory = (metadata tag "GUIMenu_CreateNewWorld" of player):
 		cancel event
 
-		if name of event-item = "&aOverWorld":
-
+		if name of event-item = "&aOverWorld" or "&aNether" or "&aThe End" or "&aFlat" or "&aThe Void" or "&aAmplified OverWorld" or "&aAmplified Nether" or "&aAmplified The End":
 			set {_id_world} to "%{db-worldgestion::%uuid of player%::create_new_world::id_named}%"
 			delete {db-worldgestion::%uuid of player%::create_new_world::id_named}
-
+			
 			close inventory of player
 			set {_nw} to new world creator named "%{_id_world}%"
-			set environment option of {_nw} to normal
+
+			if name of event-item = "&aOverWorld":
+				set environment option of {_nw} to normal
+
+			else if name of event-item = "&aNether":
+				set environment option of {_nw} to nether
+
+			else if name of event-item = "&aThe End":
+				set environment option of {_nw} to the end
+
+			else if name of event-item = "&aFlat":
+				set environment option of {_nw} to normal
+				set world type of {_nw} to flat
+
+			else if name of event-item = "&aThe Void":
+				set world type of {_nw} to flat
+				set generator settings of {_nw} to "{""biome"": ""minecraft:plains"",""layers"": []}}"
+				set should generate structures of {_nw} to false
+
+			if name of event-item = "&aAmplified OverWorld":
+				set environment option of {_nw} to normal
+				set world type option of {_nw} to amplified
+
+			else if name of event-item = "&aAmplified Nether":
+				set environment option of {_nw} to nether
+				set world type option of {_nw} to amplified
+
+			else if name of event-item = "&aAmplified The End":
+
+				set environment option of {_nw} to the end
+				set world type option of {_nw} to amplified
+			
 			load world from creator {_nw}
-
-			if {@Language_name} = "English":
-				send "&8&l| &6You have created the world &3%{_id_world}% &6with successfully." to player
-
-		else if name of event-item = "&aNether":
-
-			set {_id_world} to "%{db-worldgestion::%uuid of player%::create_new_world::id_named}%"
-			delete {db-worldgestion::%uuid of player%::create_new_world::id_named}
-
-			close inventory of player
-			set {_nw} to new world creator named "%{_id_world}%"
-			set environment option of {_nw} to nether
-			load world from creator {_nw}
-
-			if {@Language_name} = "English":
-				send "&8&l| &6You have created the world &3%{_id_world}% &6with successfully." to player
-
-		else if name of event-item = "&aThe End":
-
-			set {_id_world} to "%{db-worldgestion::%uuid of player%::create_new_world::id_named}%"
-			delete {db-worldgestion::%uuid of player%::create_new_world::id_named}
-
-			close inventory of player
-			set {_nw} to new world creator named "%{_id_world}%"
-			set environment option of {_nw} to the end
-			load world from creator {_nw}
-
-			if {@Language_name} = "English":
-				send "&8&l| &6You have created the world &3%{_id_world}% &6with successfully." to player
-
-
-		else if name of event-item = "&aFlat":
-
-			set {_id_world} to "%{db-worldgestion::%uuid of player%::create_new_world::id_named}%"
-			delete {db-worldgestion::%uuid of player%::create_new_world::id_named}
-
-			close inventory of player
-			set {_nw} to new world creator named "%{_id_world}%"
-			set environment option of {_nw} to normal
-			set world type of {_nw} to flat
-			load world from creator {_nw}
-
-			if {@Language_name} = "English":
-				send "&8&l| &6You have created the world &3%{_id_world}% &6with successfully." to player
-
-
-		else if name of event-item = "&aThe Void":
-
-			set {_id_world} to "%{db-worldgestion::%uuid of player%::create_new_world::id_named}%"
-			delete {db-worldgestion::%uuid of player%::create_new_world::id_named}
-
-			close inventory of player
-			set {_nw} to new world creator named "%{_id_world}%"
-			set world type of {_nw} to flat
-			set generator settings of {_nw} to "{""biome"": ""minecraft:plains"",""layers"": []}}"
-			set should generate structures of {_nw} to false
-			load world from {_nw}
-
-			if {@Language_name} = "English":
-				send "&8&l| &6You have created the world &3%{_id_world}% &6with successfully." to player
-
-		if name of event-item = "&aAmplified OverWorld":
-
-			set {_id_world} to "%{db-worldgestion::%uuid of player%::create_new_world::id_named}%"
-			delete {db-worldgestion::%uuid of player%::create_new_world::id_named}
-
-			close inventory of player
-			set {_nw} to new world creator named "%{_id_world}%"
-			set environment option of {_nw} to normal
-			set world type option of {_nw} to amplified
-			load world from creator {_nw}
-
-			if {@Language_name} = "English":
-				send "&8&l| &6You have created the world &3%{_id_world}% &6with successfully." to player
-
-		else if name of event-item = "&aAmplified Nether":
-
-			set {_id_world} to "%{db-worldgestion::%uuid of player%::create_new_world::id_named}%"
-			delete {db-worldgestion::%uuid of player%::create_new_world::id_named}
-
-			close inventory of player
-			set {_nw} to new world creator named "%{_id_world}%"
-			set environment option of {_nw} to nether
-			set world type option of {_nw} to amplified
-			load world from creator {_nw}
-
-			if {@Language_name} = "English":
-				send "&8&l| &6You have created the world &3%{_id_world}% &6with successfully." to player
-
-		else if name of event-item = "&aAmplified The End":
-
-			set {_id_world} to "%{db-worldgestion::%uuid of player%::create_new_world::id_named}%"
-			delete {db-worldgestion::%uuid of player%::create_new_world::id_named}
-
-			close inventory of player
-			set {_nw} to new world creator named "%{_id_world}%"
-			set environment option of {_nw} to the end
-			set world type option of {_nw} to amplified
-			load world from creator {_nw}
-
 			if {@Language_name} = "English":
 				send "&8&l| &6You have created the world &3%{_id_world}% &6with successfully." to player
 
