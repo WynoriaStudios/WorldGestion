@@ -159,6 +159,9 @@ function GUINewWorldCreateSystem(sender: sender, type-function: text):
 			set slot 12 of (metadata tag "GUIMenu_CreateNewWorld" of {_sender}) to end stone named "&aThe End" with lore "%nl%&7Creating a end world."
 			set slot 13 of (metadata tag "GUIMenu_CreateNewWorld" of {_sender}) to rooted dirt named "&aFlat" with lore "%nl%&7Creating a flat normal world."
 			set slot 14 of (metadata tag "GUIMenu_CreateNewWorld" of {_sender}) to glass named "&aThe Void" with lore "%nl%&7Creating a void normal world."
+			set slot 15 of (metadata tag "GUIMenu_CreateNewWorld" of {_sender}) to grass block named "&aAmplified OverWorld" with lore "%nl%&7Creating a amplified normal world."
+			set slot 16 of (metadata tag "GUIMenu_CreateNewWorld" of {_sender}) to netherrack named "&aAmplified Nether" with lore "%nl%&7Creating a amplified nether world."
+			set slot 19 of (metadata tag "GUIMenu_CreateNewWorld" of {_sender}) to end stone named "&aAmplified The End" with lore "%nl%&7Creating a amplified end world."
 
 			set slot 49 of (metadata tag "GUIMenu_CreateNewWorld" of {_sender}) to head of {_sender} named "&cClose the menu" with nbt compound from "{SkullOwner:{Id:[I;1592265869,750865405,-1589933904,573464521],Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYzdmMDBlZjIyMGJhZGI5MjU1NjFlMjJkZWJhYTcyNjMyMDY5MjEwNDdjZDgzZWYzYzg0ZGY0OTBiYmNkZDE4YiJ9fX0=""}]}}}"
 	
@@ -311,6 +314,48 @@ on inventory click:
 			set generator settings of {_nw} to "{""biome"": ""minecraft:plains"",""layers"": []}}"
 			set should generate structures of {_nw} to false
 			load world from {_nw}
+
+			if {@Language_name} = "English":
+				send "&8&l| &6You have created the world &3%{_id_world}% &6with successfully." to player
+
+		if name of event-item = "&aAmplified OverWorld":
+
+			set {_id_world} to "%{db-worldgestion::%uuid of player%::create_new_world::id_named}%"
+			delete {db-worldgestion::%uuid of player%::create_new_world::id_named}
+
+			close inventory of player
+			set {_nw} to new world creator named "%{_id_world}%"
+			set environment option of {_nw} to normal
+			set world type option of {_nw} to amplified
+			load world from creator {_nw}
+
+			if {@Language_name} = "English":
+				send "&8&l| &6You have created the world &3%{_id_world}% &6with successfully." to player
+
+		else if name of event-item = "&aAmplified Nether":
+
+			set {_id_world} to "%{db-worldgestion::%uuid of player%::create_new_world::id_named}%"
+			delete {db-worldgestion::%uuid of player%::create_new_world::id_named}
+
+			close inventory of player
+			set {_nw} to new world creator named "%{_id_world}%"
+			set environment option of {_nw} to nether
+			set world type option of {_nw} to amplified
+			load world from creator {_nw}
+
+			if {@Language_name} = "English":
+				send "&8&l| &6You have created the world &3%{_id_world}% &6with successfully." to player
+
+		else if name of event-item = "&aAmplified The End":
+
+			set {_id_world} to "%{db-worldgestion::%uuid of player%::create_new_world::id_named}%"
+			delete {db-worldgestion::%uuid of player%::create_new_world::id_named}
+
+			close inventory of player
+			set {_nw} to new world creator named "%{_id_world}%"
+			set environment option of {_nw} to the end
+			set world type option of {_nw} to amplified
+			load world from creator {_nw}
 
 			if {@Language_name} = "English":
 				send "&8&l| &6You have created the world &3%{_id_world}% &6with successfully." to player
