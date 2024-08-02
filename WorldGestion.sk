@@ -218,39 +218,56 @@ function WorldCMDSystem(sender: sender, type-function: text, type-world: text):
 			send "&8&l| &6Vous avez été téléporté au point de réapparition de ce monde." to {_sender}
 
 
-function GUINewWorldCreateSystem(sender: sender, type-function: text):
+function GUINewWorldCreateSystem(player: offline player, type-function: text):
 
 	if {_type-function} = "MAIN_MENU":
 
 		if {@Language_name} = "English":
 
-			set (metadata tag "GUIMenu_CreateNewWorld" of {_sender}) to chest inventory with 6 rows named "&8&lCreate new world"
-			
-			set slot 10 of (metadata tag "GUIMenu_CreateNewWorld" of {_sender}) to grass block named "&aOverWorld" with lore "%nl%&7Creating a normal world."
-			set slot 11 of (metadata tag "GUIMenu_CreateNewWorld" of {_sender}) to netherrack named "&aNether" with lore "%nl%&7Creating a nether world."
-			set slot 12 of (metadata tag "GUIMenu_CreateNewWorld" of {_sender}) to end stone named "&aThe End" with lore "%nl%&7Creating a end world."
-			set slot 13 of (metadata tag "GUIMenu_CreateNewWorld" of {_sender}) to rooted dirt named "&aFlat" with lore "%nl%&7Creating a flat normal world."
-			set slot 14 of (metadata tag "GUIMenu_CreateNewWorld" of {_sender}) to glass named "&aThe Void" with lore "%nl%&7Creating a void normal world."
-			set slot 15 of (metadata tag "GUIMenu_CreateNewWorld" of {_sender}) to grass block named "&aAmplified OverWorld" with lore "%nl%&7Creating a amplified normal world."
-			set slot 16 of (metadata tag "GUIMenu_CreateNewWorld" of {_sender}) to netherrack named "&aAmplified Nether" with lore "%nl%&7Creating a amplified nether world."
-			set slot 19 of (metadata tag "GUIMenu_CreateNewWorld" of {_sender}) to end stone named "&aAmplified The End" with lore "%nl%&7Creating a amplified end world."
+			set {_result::worldgestion::%uuid of {_player}%::gui_menu::name_menu} to "&8&lCreate new world..."
 
-			set slot 49 of (metadata tag "GUIMenu_CreateNewWorld" of {_sender}) to barrier named "&cClose the menu"
+			set {_result::worldgestion::%uuid of {_player}%::gui_menu::slot_10} to "%nl%&7Creating a normal world."
+			set {_result::worldgestion::%uuid of {_player}%::gui_menu::slot_11} to "%nl%&7Creating a nether world."
+			set {_result::worldgestion::%uuid of {_player}%::gui_menu::slot_12} to "%nl%&7Creating a end world."
+			set {_result::worldgestion::%uuid of {_player}%::gui_menu::slot_13} to "%nl%&7Creating a flat normal world."
+			set {_result::worldgestion::%uuid of {_player}%::gui_menu::slot_14} to "%nl%&7Creating a void normal world."
+			set {_result::worldgestion::%uuid of {_player}%::gui_menu::slot_15} to "%nl%&7Creating a amplified normal world."
+			set {_result::worldgestion::%uuid of {_player}%::gui_menu::slot_16} to "%nl%&7Creating a amplified nether world."
+			set {_result::worldgestion::%uuid of {_player}%::gui_menu::slot_19} to "%nl%&7Creating a amplified end world."
+
+			set {_result::worldgestion::%uuid of {_player}%::gui_menu::close_menu} to "&cClose the menu"
 	
 		else if {@Language_name} = "Français":
-			set slot 10 of (metadata tag "GUIMenu_CreateNewWorld" of {_sender}) to grass block named "&aOverWorld" with lore "%nl%&7Créer un monde Overworld."
-			set slot 11 of (metadata tag "GUIMenu_CreateNewWorld" of {_sender}) to netherrack named "&aNether" with lore "%nl%&7Créer un monde Nether."
-			set slot 12 of (metadata tag "GUIMenu_CreateNewWorld" of {_sender}) to end stone named "&aThe End" with lore "%nl%&7Créer un monde end."
-			set slot 13 of (metadata tag "GUIMenu_CreateNewWorld" of {_sender}) to rooted dirt named "&aFlat" with lore "%nl%&7Créer un monde flat."
-			set slot 14 of (metadata tag "GUIMenu_CreateNewWorld" of {_sender}) to glass named "&aThe Void" with lore "%nl%&7Créer un monde void."
-			set slot 15 of (metadata tag "GUIMenu_CreateNewWorld" of {_sender}) to grass block named "&aAmplified OverWorld" with lore "%nl%&7Créer un monde oveworld amplifié."
-			set slot 16 of (metadata tag "GUIMenu_CreateNewWorld" of {_sender}) to netherrack named "&aAmplified Nether" with lore "%nl%&7Créer un monde nether amplifié."
-			set slot 19 of (metadata tag "GUIMenu_CreateNewWorld" of {_sender}) to end stone named "&aAmplified The End" with lore "%nl%&7Créer un monde end amplifié."
 
-			set slot 49 of (metadata tag "GUIMenu_CreateNewWorld" of {_sender}) to barrier named "&cFermer le menu"
+			set {_result::worldgestion::%uuid of {_player}%::gui_menu::name_menu} to "&8&lCréer un monde..."
 
-		set slot 36, 37, 38, 39, 40, 41, 42, 43 and 44 of (metadata tag "GUIMenu_CreateNewWorld" of {_sender}) to light blue stained glass pane	
-		open (metadata tag "GUIMenu_CreateNewWorld" of {_sender}) to {_sender}
+			set {_result::worldgestion::%uuid of {_player}%::gui_menu::slot_10} to "%nl%&7Créer un monde Overworld."
+			set {_result::worldgestion::%uuid of {_player}%::gui_menu::slot_11} to "%nl%&7Créer un monde Nether."
+			set {_result::worldgestion::%uuid of {_player}%::gui_menu::slot_12} to "%nl%&7Créer un monde end."
+			set {_result::worldgestion::%uuid of {_player}%::gui_menu::slot_13} to "%nl%&7Créer un monde flat."
+			set {_result::worldgestion::%uuid of {_player}%::gui_menu::slot_14} to "%nl%&7Créer un monde void."
+			set {_result::worldgestion::%uuid of {_player}%::gui_menu::slot_15} to "%nl%&7Créer un monde oveworld amplifié."
+			set {_result::worldgestion::%uuid of {_player}%::gui_menu::slot_16} to "%nl%&7Créer un monde nether amplifié."
+			set {_result::worldgestion::%uuid of {_player}%::gui_menu::slot_19} to "%nl%&7Créer un monde end amplifié."
+
+			set {_result::worldgestion::%uuid of {_player}%::gui_menu::close_menu} to "&cFermer le menu"
+
+
+		set (metadata tag "GUIMenu_CreateNewWorld" of {_player}) to chest inventory with 6 rows named "%{_result::worldgestion::%uuid of {_player}%::gui_menu::name_menu}%"
+
+		set slot 10 of (metadata tag "GUIMenu_CreateNewWorld" of {_player}) to grass block named "&aOverWorld" with lore "%{_result::worldgestion::%uuid of {_player}%::gui_menu::slot_10}%"
+		set slot 11 of (metadata tag "GUIMenu_CreateNewWorld" of {_player}) to netherrack named "&aNether" with lore "%{_result::worldgestion::%uuid of {_player}%::gui_menu::slot_11}%"
+		set slot 12 of (metadata tag "GUIMenu_CreateNewWorld" of {_player}) to end stone named "&aThe End" with lore "%{_result::worldgestion::%uuid of {_player}%::gui_menu::slot_12}%"
+		set slot 13 of (metadata tag "GUIMenu_CreateNewWorld" of {_player}) to rooted dirt named "&aFlat" with lore "%{_result::worldgestion::%uuid of {_player}%::gui_menu::slot_13}%"
+		set slot 14 of (metadata tag "GUIMenu_CreateNewWorld" of {_player}) to glass named "&aThe Void" with lore "%{_result::worldgestion::%uuid of {_player}%::gui_menu::slot_14}%"
+		set slot 15 of (metadata tag "GUIMenu_CreateNewWorld" of {_player}) to grass block named "&aAmplified OverWorld" with lore "%{_result::worldgestion::%uuid of {_player}%::gui_menu::slot_15}%"
+		set slot 16 of (metadata tag "GUIMenu_CreateNewWorld" of {_player}) to netherrack named "&aAmplified Nether" with lore "%{_result::worldgestion::%uuid of {_player}%::gui_menu::slot_16}%"
+		set slot 19 of (metadata tag "GUIMenu_CreateNewWorld" of {_player}) to end stone named "&aAmplified The End" with lore "%{_result::worldgestion::%uuid of {_player}%::gui_menu::slot_10}%"
+
+		set slot 49 of (metadata tag "GUIMenu_CreateNewWorld" of {_player}) to barrier named "%{_result::worldgestion::%uuid of {_player}%::gui_menu::close_menu}%"
+
+		set slot 36, 37, 38, 39, 40, 41, 42, 43 and 44 of (metadata tag "GUIMenu_CreateNewWorld" of {_player}) to light blue stained glass pane	
+		open (metadata tag "GUIMenu_CreateNewWorld" of {_player}) to {_player}
 
 
 command /worldgestion [<text>]:
@@ -368,9 +385,6 @@ on inventory click:
 
 				set environment option of {_nw} to the end
 				set world type option of {_nw} to amplified
-
-		if name of event-item = "&cClose the menu" or "&cFermer le menu":
-			close inventory of player
 			
 			load world from creator {_nw}
 			
@@ -379,6 +393,9 @@ on inventory click:
 				
 			if {@Language_name} = "Français":
 				send "&8&l| &6Vous avez crée le monde &3%{_id_world}% &6avec succès." to player
+
+		else if name of event-item = "&cClose the menu" or "&cFermer le menu":
+			close inventory of player
 
 
 on inventory close:
