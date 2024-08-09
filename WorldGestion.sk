@@ -83,7 +83,7 @@ function WorldGestionCMDSystem(sender: sender, type-function: text):
 			send "&8&l| &6Vous avez redémarré le script avec succès, vérifiez la &3CONSOLE &6du serveur pour voir s'il y a des problèmes détectés lors de votre redémarrage." to {_sender}
 
 
-function WorldCMDSystem(sender: sender, type-function: text, type-world: text):
+function WorldCMDSystem(sender: sender, type-function: text, type-world: text, type-world-2: text):
 
 	if {_type-function} = "NO_CONSOLE_ACCESS":
 
@@ -111,6 +111,7 @@ function WorldCMDSystem(sender: sender, type-function: text, type-world: text):
 			send "&b&lWorldGestion &8x &f&nHELP" to {_sender}
 			send "" to {_sender}
 			send "&8&l| &f/world &bcreate &7[&dname of new world&7] &8&l» &7Create a world type." to {_sender}
+			send "&8&l| &f/world &bclone &7[&dname of new world&7] &7[&dname of clone world&7] &8&l» &7Clone a world type." to {_sender}
 			send "&8&l| &f/world &bdelete &7[&dname of world&7] &8&l» &7Delete a world type." to {_sender}
 			send "&8&l| &f/world &bsetspawn &8&l» &7Set spawn in world type." to {_sender}
 			send "&8&l| &f/world &bspawn &8&l» &7Teleport in player's world." to {_sender}
@@ -122,6 +123,7 @@ function WorldCMDSystem(sender: sender, type-function: text, type-world: text):
 			send "&b&lWorldGestion &8x &f&nAIDE" to {_sender}
 			send "" to {_sender}
 			send "&8&l| &f/world &bcreate &7[&dnom d'un nouveau monde&7] &8&l» &7Créer un type de monde." to {_sender}
+			send "&8&l| &f/world &bclone &7[&dnom d'un nouveau monde&7] &7[&dnom du clone du monde&7] &8&l» &7Créer le clone d'un type de monde." to {_sender}
 			send "&8&l| &f/world &bdelete &7[&dnom d'un monde&7] &8&l» &7Supprimer un type de monde." to {_sender}
 			send "&8&l| &f/world &bsetspawn &8&l» &7Définir le type de spawn dans le monde." to {_sender}
 			send "&8&l| &f/world &bspawn &8&l» &7Téléportation dans le monde du joueur." to {_sender}
@@ -183,6 +185,18 @@ function WorldCMDSystem(sender: sender, type-function: text, type-world: text):
 		set {db-worldgestion::%uuid of {_sender}%::create_new_world::id_named} to "%{_type-world}%"
 		wait 1 tick
 		GUINewWorldCreateSystem({_sender}, "MAIN_MENU")
+
+	
+	else if {_type-function} = "WORLD_CLONE":
+
+		set {_nw} to a new world creator named "%{_type-world-2}%" to clone world "%{_type-world}%" without saving
+		load world from creator {_nw}
+			
+		if {@Language_name} = "English":
+			send "&8&l| &6You have created the world &3%{_type-world}% &6with successfully." to {_sender}
+			
+		if {@Language_name} = "Français":
+			send "&8&l| &6Vous avez crée le monde &3%{_type-world}% &6avec succès." to {_sender}
 
 
 	else if {_type-function} = "WORLD_TELEPORT":
@@ -291,7 +305,7 @@ command /worldgestion [<text>]:
 				WorldGestionCMDSystem(sender, "RELOAD_SCRIPT")
 
 
-command /world [<text>] [<text>]:
+command /world [<text>] [<text>] [<text>]:
 	aliases: /worldgestion:world
 	trigger:
 		if sender is a player:
@@ -300,48 +314,60 @@ command /world [<text>] [<text>]:
 				stop
 			else:
 				if arg-1 isn't set:
-					WorldCMDSystem(player, "HELP", "NONE")
+					WorldCMDSystem(player, "HELP", "NONE", "NONE")
 				else:
-					if arg-1 != "create" or "delete" or "setspawn" or "spawn" or "tp" or "teleport" or "list":
-						WorldCMDSystem(player, "HELP", "NONE")
+					if arg-1 != "create" or "clone" or "delete" or "setspawn" or "spawn" or "tp" or "teleport" or "list":
+						WorldCMDSystem(player, "HELP", "NONE", "NONE")
 
-					else if arg-1 = "create" or "delete" or "tp" or "teleport":
+					else if arg-1 = "create" or "clone" or "delete" or "tp" or "teleport":
 						if arg-2 isn't set:
-							WorldCMDSystem(player, "HELP", "NONE")
+							WorldCMDSystem(player, "HELP", "NONE", "NONE")
 						else:
 
 							if arg-1 = "create":
 								if (arg-2 parsed as world) is set:
-									WorldCMDSystem(player, "WORLD_EXIST", "%arg-2 parsed as world%")
+									WorldCMDSystem(player, "WORLD_EXIST", "%arg-2 parsed as world%", "NONE")
 								else:
-									WorldCMDSystem(player, "WORLD_CREATE", arg-2)
+									WorldCMDSystem(player, "WORLD_CREATE", arg-2, "NONE")
+
+							if arg-1 = "clone":
+								if (arg-2 parsed as world) isn't set:
+									WorldCMDSystem(player, "WORLD_NO_EXIST", arg-2, "NONE")
+								else:
+									if arg-3 isn't set:
+										WorldCMDSystem(player, "HELP", "NONE", "NONE")
+									else:
+										if (arg-3 parsed as world) is set:
+											WorldCMDSystem(player, "WORLD_EXIST", "%arg-2 parsed as world%", "NONE")
+										else:
+											WorldCMDSystem(player, "WORLD_CLONE", arg-2, arg-3)
 						
 							else if arg-1 = "delete":
 								if (arg-2 parsed as world) isn't set:
-									WorldCMDSystem(player, "WORLD_NO_EXIST", arg-2)
+									WorldCMDSystem(player, "WORLD_NO_EXIST", arg-2, "NONE")
 								else:
 									if arg-2 = {@WorldList_NoDelete}:
-										WorldCMDSystem(player, "WORLD_NO_DELETE", arg-2)
+										WorldCMDSystem(player, "WORLD_NO_DELETE", arg-2, "NONE")
 									else:
-										WorldCMDSystem(player, "WORLD_DELETE", "%arg-2 parsed as world%")
+										WorldCMDSystem(player, "WORLD_DELETE", "%arg-2 parsed as world%", "NONE")
 
 							else if arg-1 = "tp" or "teleport":
 								if (arg-2 parsed as world) isn't set:
-									WorldCMDSystem(player, "WORLD_NO_EXIST", arg-2)
+									WorldCMDSystem(player, "WORLD_NO_EXIST", arg-2, "NONE")
 								else:
-									WorldCMDSystem(player, "WORLD_TELEPORT", "%arg-2 parsed as world%")
+									WorldCMDSystem(player, "WORLD_TELEPORT", "%arg-2 parsed as world%", "NONE")
 
 					else if arg-1 = "setspawn":
-						WorldCMDSystem(player, "SET_SPAWN_WORLD", "NONE")
+						WorldCMDSystem(player, "SET_SPAWN_WORLD", "NONE", "NONE")
 
 					else if arg-1 = "spawn":
-						WorldCMDSystem(player, "SPAWN_WORLD", "NONE")
+						WorldCMDSystem(player, "SPAWN_WORLD", "NONE", "NONE")
 					
 					else if arg-1 = "list":
-						WorldCMDSystem(player, "WORLD_LIST", "NONE")
+						WorldCMDSystem(player, "WORLD_LIST", "NONE", "NONE")
 
 		else if sender is console:
-			WorldCMDSystem(console, "NO_CONSOLE_ACCESS", "NONE")
+			WorldCMDSystem(console, "NO_CONSOLE_ACCESS", "NONE", "NONE")
 
 
 on inventory click:
@@ -422,6 +448,6 @@ on tab complete of "worldgestion" or "wg" or "worldgestion:worldgestion" or "wor
 on tab complete of "world" or "worldgestion:world":
 	if sender is a player:
 		if player has permission "worldgestion.command.world" or "worldgestion.command.*":
-			set tab completions for position 1 to "create", "delete", "setspawn", "spawn", "tp", "teleport" and "list"
+			set tab completions for position 1 to "create", "clone", "delete", "setspawn", "spawn", "tp", "teleport" and "list"
 			if tab arg-1 = "tp" or "teleport" or "delete":
 				set tab completions for position 2 to all worlds
