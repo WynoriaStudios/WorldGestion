@@ -74,13 +74,14 @@ function WorldGestionCMDSystem(sender: sender, type-function: text):
 	else if {_type-function} = "RELOAD_SCRIPT":
 
 		make console execute command "/sk reload WorldGestion.sk"
-		send "" to {_sender}
+		if {_sender} is a player:
+			send "" to {_sender}
 
-		if {@Language_name} = "English":
-			send "&8&l| &6You have successfully restarted the script, check the server &3CONSOLE &6to see if there are any problems detected on your restart." to {_sender}
+			if {@Language_name} = "English":
+				send "&8&l| &6You have successfully restarted the script, check the server &3CONSOLE &6to see if there are any problems detected on your restart." to {_sender}
 
-		else if {@Language_name} = "Français":
-			send "&8&l| &6Vous avez redémarré le script avec succès, vérifiez la &3CONSOLE &6du serveur pour voir s'il y a des problèmes détectés lors de votre redémarrage." to {_sender}
+			else if {@Language_name} = "Français":
+				send "&8&l| &6Vous avez redémarré le script avec succès, vérifiez la &3CONSOLE &6du serveur pour voir s'il y a des problèmes détectés lors de votre redémarrage." to {_sender}
 
 
 function WorldCMDSystem(sender: sender, type-function: text, type-world: text, type-world-2: text):
@@ -193,10 +194,10 @@ function WorldCMDSystem(sender: sender, type-function: text, type-world: text, t
 		load world from creator {_nw}
 			
 		if {@Language_name} = "English":
-			send "&8&l| &6You have created the world &3%{_type-world}% &6with successfully." to {_sender}
+			send "&8&l| &6You have created the world clone &3%{_type-world}% &6with successfully." to {_sender}
 			
 		if {@Language_name} = "Français":
-			send "&8&l| &6Vous avez crée le monde &3%{_type-world}% &6avec succès." to {_sender}
+			send "&8&l| &6Vous avez crée le monde clone &3%{_type-world}% &6avec succès." to {_sender}
 
 
 	else if {_type-function} = "WORLD_TELEPORT":
@@ -449,5 +450,5 @@ on tab complete of "world" or "worldgestion:world":
 	if sender is a player:
 		if player has permission "worldgestion.command.world" or "worldgestion.command.*":
 			set tab completions for position 1 to "create", "clone", "delete", "setspawn", "spawn", "tp", "teleport" and "list"
-			if tab arg-1 = "tp" or "teleport" or "delete":
+			if tab arg-1 = "clone" or "tp" or "teleport" or "delete":
 				set tab completions for position 2 to all worlds
